@@ -47,3 +47,68 @@ var popularTags = ["react", "next"];
 var popularTags2 = ["react", "next"];
 // so we have created a custom type using union
 var dragonTags = "cute dragon"; // 'string' or 'null', but not [] or anything else
+// ###############################
+// void
+// it is recommended to define 'void' in a funciton explicitly,
+// when we do not want to return anything form a function
+// to avoid future jhamela
+// when a function does not return anything,
+// it returns 'void' which refers to 'null' or 'undefined'
+// 'void' is a set of 'null' and 'undefined'
+var doSomething = function () {
+    console.log("Do something");
+};
+// but writing the code below does not make any sense
+var foo = undefined;
+var foo2 = null;
+// because we can not assign any other value to them
+// so what's the point of defining such a type on a variable?
+// ###########################################
+// any
+// 'any' type turns off TypeScript checks
+// 'any' is the worst type in TS
+// you never want to use it
+// 'any' is not a solution, but start of a big problem
+var foo3 = "bar"; // you can assign any value to it later
+// ############################################
+// never
+// this is not popular and not used much
+// A function returning 'never' cannot have a reachable end point.
+// funciton with 'never' cannot be executed to the end
+// the function below shows an error
+// const doSomethingMore = (): never => {
+//     console.log('Hello');
+// };
+// but the one below shows no error
+// because it will not happen by
+var doSomethingMore2 = function () {
+    throw "never";
+};
+// ###########################################
+// unknown
+// 'unknown' is an enormous alternative to 'any'
+var vAny = 10;
+var vUnknown = 10;
+// till now, they look the same
+// but below, they will not behave the same
+// let s1: string = vAny; // TS does not complain here, because we can assign 'any' everywhere
+// let s2: string = vUnknown // error: Type 'unknown' is not assignable to type 'string'.
+// we cannot assign 'unknown' directly in other type
+// vAny.foo(); // TS does not care because 'vAny' is 'any'
+// vUnknown.foo(); // error: Property 'foo' does not exist on type 'unknown'.
+// so, first of all, we need somehow convert our data type from 'unknown' to another type
+// here comes type assertion
+// Type Assertion means we want to convert one type to another
+// so in some cases, we need to tell TS what type it is
+var s3 = vAny; // TS does not complain here, because we can assign 'any' everywhere
+var s4 = vUnknown; // this time we don't get an error, because we convert 'unknown' to 'string' and then we assign the string to our new string 's4'
+// 'as' operator makes type assertion
+// 'as' operator not only works with 'unknown', but also it works with any other types, but there is a problem
+var pageNumber = "1";
+// let numericPageNumber: number = pageNumber as number;
+// the line above gives this error:
+// Conversion of type 'string' to type 'number' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+// the reason behind is; TS thinks that we are converting a 'string' to a 'number' and this might be a mistake
+// so, it tells us to convert the 'string' to 'unknown' first and then to 'number'
+// so, the line below does not give an error
+var numericPageNumber = pageNumber;
